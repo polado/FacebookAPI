@@ -1,5 +1,6 @@
 namespace FacbookApi.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -49,17 +50,17 @@ namespace FacbookApi.Models
         public string UserGender { get; set; }
 
         public int UserRoleID { get; set; }
-
+        [JsonIgnore]
         public bool? UserIsBlocked { get; set; }
 
         public byte[] UserProfilePicture { get; set; }
-
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Friend> Friends { get; set; }
-
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Post> Posts { get; set; }
-
+        [JsonIgnore]
         public virtual Role Role { get; set; }
     }
 }

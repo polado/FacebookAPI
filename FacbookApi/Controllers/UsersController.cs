@@ -39,6 +39,42 @@ namespace FacbookApi.Controllers
             return Ok(user.First());
         }
 
+        private User getUserFromRegisterViewModel(RegisterViewModel model)
+        {
+            return new User()
+            {
+                UserFirstName = model.UserFirstName,
+                UserLastName = model.UserLastName,
+                UserMail = model.UserMail,
+                UserPassword = model.UserPassword,
+                UserPhone = model.UserPhone,
+                UserAddress = model.UserAddress,
+                UserDateOfBirth = model.UserDateOfBirth,
+                UserGender = model.UserGender,
+                UserProfilePicture = model.UserProfilePicture
+            };
+        }
+
+        // POST: api/Users
+        [HttpPost]
+        [ResponseType(typeof(User))]
+        [Route("Register")]
+        public IHttpActionResult Registerion(User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //User user = getUserFromRegisterViewModel(model);
+            Console.WriteLine(user);
+
+            user = db.Users.Add(user);
+            db.SaveChanges();
+
+            return Ok(user.UserID);
+        }
+
         // GET: api/Users/5
         [ResponseType(typeof(User))]
         public IHttpActionResult GetUser(int id)
@@ -144,28 +180,7 @@ namespace FacbookApi.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-
-
-        // POST: api/Users
-        [HttpPost]
-        [ResponseType(typeof(User))]
-        [Route("Register")]
-        public IHttpActionResult Registerion(User user)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Users.Add(user);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = user.UserID }, user);
-        }
-
-
-
-
+        
         // DELETE: api/Users/5
         [ResponseType(typeof(User))]
         public IHttpActionResult DeleteUser(int id)
