@@ -22,11 +22,12 @@ namespace FacbookApi.Controllers
             return db.Friends;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("ToggleRequest")]
         public IHttpActionResult ToggleRequest(Friend friendRequest)
         {
-            var request = db.Friends.SingleOrDefault(r => (r.FriendRecevierID == friendRequest.FriendRecevierID && r.FriendSenderID == friendRequest.FriendSenderID)
+            var request = db.Friends.SingleOrDefault(r => 
+            (r.FriendRecevierID == friendRequest.FriendRecevierID && r.FriendSenderID == friendRequest.FriendSenderID)
             || (r.FriendRecevierID == friendRequest.FriendSenderID && r.FriendSenderID == friendRequest.FriendRecevierID));
 
             if (request != null)

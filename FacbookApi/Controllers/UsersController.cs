@@ -21,7 +21,7 @@ namespace FacbookApi.Controllers
         // GET: api/Users
         public IHttpActionResult GetUsers()
         {
-            var users = db.Users.Select(i => new { i.UserID, i.UserFirstName, i.UserLastName, i.UserMail, i.UserGender, i.UserDateOfBirth });
+            var users = db.Users.Select(i => new { i.UserID, i.UserFirstName, i.UserLastName, i.UserMail, i.UserGender, i.UserDateOfBirth, i.UserProfilePicture });
             if (users == null)
                 return NotFound();
             return Ok(users);

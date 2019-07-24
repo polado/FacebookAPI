@@ -34,6 +34,40 @@ namespace FacbookApi.Controllers
             return friends;
         }
 
+        [Route("AllPosts")]
+        public IHttpActionResult GetMyFriendsPosts(int id)
+        {
+            Console.WriteLine(id);
+            var friends = getMyFriendsList(id);
+            IQueryable<Post> posts = db.Posts.Where(p => friends.Contains(p.PostUserID) && p.PostIsDeleted == false);
+
+            if (posts == null)
+                return NotFound();
+            else
+                return Ok(posts);
+        }
+
+        private IQueryable<int> getMyFriendsList(int myID)
+        {
+            var receiver = db.Friends.Where(f => f.FriendRecevierID == myID && f.FriendState == true).Select(f => f.FriendSenderID);
+            var sender = db.Friends.Where(f => f.FriendSenderID == myID && f.FriendState == true).Select(f => f.FriendRecevierID);
+            var friends = sender.Union(receiver);
+            return friends;
+        }
+
+        [Route("MyPosts")]
+        [ResponseType(typeof(Post))]
+        public IHttpActionResult GetMyPost(int id)
+        {
+            IQueryable<Post> posts = db.Posts.Where(p => p.PostUserID == id && p.PostIsDeleted == false);
+            if (posts == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(posts);
+        }
+
         // GET: api/Posts/5
         [ResponseType(typeof(Post))]
         public IHttpActionResult GetPost(int id)
